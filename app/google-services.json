@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "571876420707",
+    "firebase_url": "https://tues-gps-app.firebaseio.com",
+    "project_id": "tues-gps-app",
+    "storage_bucket": "tues-gps-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571876420707:android:8117488ae4ff4372",
+        "android_client_info": {
+          "package_name": "neshev.dimityr.gps_sms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571876420707-uvajdj35qc0uosj69f0i8o81imbo1kdi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "neshev.dimityr.gps_sms",
+            "certificate_hash": "3d8e661ffa91bb0994f5fa06abceb3f592a16bc5"
+          }
+        },
+        {
+          "client_id": "571876420707-0h1c756cam7q9ia0vb1cuqh31spuvfp1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe32RyfyznMOvC9AbmMSltkmi14W01_kU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571876420707-0h1c756cam7q9ia0vb1cuqh31spuvfp1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
