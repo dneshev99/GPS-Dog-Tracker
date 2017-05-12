@@ -1,7 +1,7 @@
 package neshev.dimityr.gps_sms;
 
 import android.app.Activity;
-import android.app.DownloadManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +26,6 @@ public class RegisterActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         setEditText();
         setButton();
@@ -49,9 +48,21 @@ public class RegisterActivity extends Activity {
                 String username = usernameText.getText().toString();
                 String password = passwordText.getText().toString();
                 String trackerID = trackeridText.getText().toString();
-                postRequest(username,password,trackerID);
+                checkInput(username,password,trackerID);
             }
         });
+    }
+
+    private void checkInput(String username, String password, String trackerID) {
+        if(username.equals("")){
+            errorText.setText("Input username");
+        }else if (password.equals("")){
+            errorText.setText("Input username");
+        }else if(trackerID.equals("")){
+            errorText.setText("");
+        }else{
+            postRequest(username,password,trackerID);
+        }
     }
 
     private void postRequest(String username, String password, String trackerID) {
@@ -76,7 +87,18 @@ public class RegisterActivity extends Activity {
     }
 
     private void handleResponse(String response) {
-        // TODO
+       switch (response){
+           case "username_taken" :
+               errorText.setText("Username is taken.");
+               break;
+           case "tracker_id_taken" :
+               errorText.setText("Tracker is already in use");
+               break;
+           case "success" :
+               Intent startLogin = new Intent(getApplicationContext(),LoginActivity.class);
+               startActivity(startLogin);
+       }
+
     }
 
 

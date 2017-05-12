@@ -143,14 +143,20 @@ public class LoginActivity extends Activity {
     }
 
     private void handleResponse(String response) {
-        if (response.equals("incorrect_username")){
-            errorText.setText("Incorrect username.");
-        }else if(response.equals("incorrect_password")){
-            errorText.setText("Incorrect password.");
-        }else if(response.equals("success")){
-            Intent startMenu = new Intent(this,MenuActivity.class);
-            startActivity(startMenu);
-        }
+       switch (response){
+           case "incorrect_username":
+               errorText.setText("Invalid username");
+               break;
+           case "incorrect_password":
+               errorText.setText("Invalid password");
+               break;
+           case "success":
+               Intent startMenu = new Intent(getApplicationContext(),MenuActivity.class);
+               startActivity(startMenu);
+               break;
+           default:
+               errorText.setText("Try again.");
+       }
 
     }
 
