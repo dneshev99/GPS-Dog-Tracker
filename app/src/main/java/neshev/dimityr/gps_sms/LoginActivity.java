@@ -3,13 +3,16 @@ package neshev.dimityr.gps_sms;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,9 @@ public class LoginActivity extends Activity {
 
     private TextView errorText;
     private EditText usernameText,passwordText;
+    private String username;
+    private String password;
+    private SharedPreferences data;
 
     String [] permissions = {Manifest.permission.RECEIVE_SMS,Manifest.permission.ACCESS_FINE_LOCATION};
 
@@ -44,10 +50,18 @@ public class LoginActivity extends Activity {
             requestForSpecificPermission();
         }
 
+
         setTextWidgets();
         setButtons();
+        checkSession();
 
+    }
 
+    private void checkSession() {
+        data = getSharedPreferences("LoginData",MODE_PRIVATE);
+        if (data.contains("username")) {
+                usernameText.setText(data.getString("username", ""));
+        }
     }
 
 
@@ -64,7 +78,7 @@ public class LoginActivity extends Activity {
     }
 
     private boolean checkIfAlreadyhavePermission() {
-        int locationResult = ContextCompat.checkSelfPermission(this, Manifest.permission_group.LOCATION);
+        int locationResult = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int smsResult = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
         return locationResult == PackageManager.PERMISSION_GRANTED && smsResult == PackageManager.PERMISSION_GRANTED;
     }
@@ -78,7 +92,7 @@ public class LoginActivity extends Activity {
         switch (requestCode) {
             case 101:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this,"Permissions Granted",Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(this,"Permissions Not Granted",Toast.LENGTH_SHORT).show();
                 }
@@ -98,11 +112,12 @@ public class LoginActivity extends Activity {
         Button loginButton = (Button) findViewById(R.id.login_button);
         Button registerButton = (Button) findViewById(R.id.register_button);
 
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = usernameText.getText().toString();
-                String password = passwordText.getText().toString();
+                    username = usernameText.getText().toString();
+                    password = passwordText.getText().toString();
 
                 if(username.equals("")){
                     errorText.setText("Input username.");
@@ -140,6 +155,8 @@ public class LoginActivity extends Activity {
                 }
             });
             queue.add(request);
+
+
     }
 
     private void handleResponse(String response) {
@@ -151,12 +168,23 @@ public class LoginActivity extends Activity {
                errorText.setText("Invalid password");
                break;
            case "success":
+               addLoginData();
+
                Intent startMenu = new Intent(getApplicationContext(),MenuActivity.class);
                startActivity(startMenu);
                break;
            default:
                errorText.setText("Try again.");
        }
+
+    }
+
+    private void addLoginData() {
+        SharedPreferences.Editor editor = data.edit();
+
+        editor.putString("username",username);
+
+        editor.apply();
 
     }
 
